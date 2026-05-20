@@ -1,5 +1,7 @@
 package com.tienda.tiendaspring.servicio;
 
+
+import com.tienda.tiendaspring.excepciones.RecursoNoEncontradoException;
 import com.tienda.tiendaspring.modelo.Categoria;
 import com.tienda.tiendaspring.repositorio.CategoriaRepositorio;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +19,9 @@ public class CategoriaServicio {
     }
 
     public Categoria obtenerPorId(int id) {
-        return repositorio.findById(id).orElse(null);
+        return repositorio.findById(id)
+                .orElseThrow(() -> new RecursoNoEncontradoException(
+                        "No existe la categoria con ID: " + id));
     }
 
     public Categoria guardar(Categoria categoria) {
@@ -25,6 +29,10 @@ public class CategoriaServicio {
     }
 
     public void eliminar(int id) {
+        if (!repositorio.existsById(id)) {
+            throw new RecursoNoEncontradoException(
+                    "No existe la categoria con ID: " + id);
+        }
         repositorio.deleteById(id);
     }
 }

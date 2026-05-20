@@ -1,5 +1,6 @@
 package com.tienda.tiendaspring.servicio;
 
+import com.tienda.tiendaspring.excepciones.RecursoNoEncontradoException;
 import com.tienda.tiendaspring.modelo.Producto;
 import com.tienda.tiendaspring.repositorio.ProductoRepositorio;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,9 @@ public class ProductoServicio {
     }
 
     public Producto obtenerPorId(int id) {
-        return repositorio.findById(id).orElse(null);
+        return repositorio.findById(id)
+                .orElseThrow(() -> new RecursoNoEncontradoException(
+                        "No existe el producto con ID: " + id));
     }
 
     public Producto guardar(Producto producto) {
@@ -25,6 +28,10 @@ public class ProductoServicio {
     }
 
     public void eliminar(int id) {
+        if (!repositorio.existsById(id)) {
+            throw new RecursoNoEncontradoException(
+                    "No existe el producto con ID: " + id);
+        }
         repositorio.deleteById(id);
     }
 }

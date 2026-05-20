@@ -1,5 +1,8 @@
 package com.tienda.tiendaspring.servicio;
 
+
+
+import com.tienda.tiendaspring.excepciones.RecursoNoEncontradoException;
 import com.tienda.tiendaspring.modelo.Cliente;
 import com.tienda.tiendaspring.repositorio.ClienteRepositorio;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +20,9 @@ public class ClienteServicio {
     }
 
     public Cliente obtenerPorId(int id) {
-        return repositorio.findById(id).orElse(null);
+        return repositorio.findById(id)
+                .orElseThrow(() -> new RecursoNoEncontradoException(
+                        "No existe el cliente con ID: " + id));
     }
 
     public Cliente guardar(Cliente cliente) {
@@ -25,6 +30,10 @@ public class ClienteServicio {
     }
 
     public void eliminar(int id) {
+        if (!repositorio.existsById(id)) {
+            throw new RecursoNoEncontradoException(
+                    "No existe el cliente con ID: " + id);
+        }
         repositorio.deleteById(id);
     }
 }
