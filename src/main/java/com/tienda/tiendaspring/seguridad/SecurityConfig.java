@@ -39,13 +39,17 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/swagger-ui/**").permitAll()
+                        .requestMatchers("/swagger-ui.html").permitAll()
+                        .requestMatchers("/api-docs/**").permitAll()
+                        .requestMatchers("/v3/api-docs/**").permitAll()
+                        .requestMatchers("/swagger-resources/**").permitAll()
+                        .requestMatchers("/webjars/**").permitAll()
+                        .requestMatchers("/favicon.ico").permitAll()
                         .requestMatchers("/productos").permitAll()
                         .requestMatchers("/categorias").permitAll()
                         .requestMatchers("/vista/login").permitAll()
                         .requestMatchers("/vista/acceso-denegado").permitAll()
-                        .requestMatchers("/swagger-ui/**").permitAll()
-                        .requestMatchers("/api-docs/**").permitAll()
-                        .requestMatchers("/v3/api-docs/**").permitAll()
                         .requestMatchers("/vista/productos").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
                         .requestMatchers("/vista/productos/guardar").hasAuthority("ROLE_ADMIN")
                         .requestMatchers("/vista/productos/actualizar/**").hasAuthority("ROLE_ADMIN")
@@ -64,6 +68,11 @@ public class SecurityConfig {
                         .logoutUrl("/vista/logout")
                         .logoutSuccessUrl("/vista/login?logout")
                         .permitAll()
+                )
+                .csrf(csrf -> csrf
+                        .ignoringRequestMatchers("/api-docs/**")
+                        .ignoringRequestMatchers("/swagger-ui/**")
+                        .ignoringRequestMatchers("/v3/api-docs/**")
                 );
 
         return http.build();

@@ -43,17 +43,32 @@
                         <div class="col-md-3">
                             <label class="form-label">Nombre</label>
                             <input type="text" class="form-control"
-                                   th:field="*{nombre}" required>
+                                   th:field="*{nombre}"
+                                   th:classappend="${#fields.hasErrors('nombre')} ? 'is-invalid'">
+                            <div class="invalid-feedback"
+                                 th:if="${#fields.hasErrors('nombre')}"
+                                 th:errors="*{nombre}">
+                            </div>
                         </div>
                         <div class="col-md-2">
                             <label class="form-label">Precio</label>
                             <input type="number" step="0.01" class="form-control"
-                                   th:field="*{precio}" required>
+                                   th:field="*{precio}"
+                                   th:classappend="${#fields.hasErrors('precio')} ? 'is-invalid'">
+                            <div class="invalid-feedback"
+                                 th:if="${#fields.hasErrors('precio')}"
+                                 th:errors="*{precio}">
+                            </div>
                         </div>
                         <div class="col-md-2">
                             <label class="form-label">Stock</label>
                             <input type="number" class="form-control"
-                                   th:field="*{stock}" required>
+                                   th:field="*{stock}"
+                                   th:classappend="${#fields.hasErrors('stock')} ? 'is-invalid'">
+                            <div class="invalid-feedback"
+                                 th:if="${#fields.hasErrors('stock')}"
+                                 th:errors="*{stock}">
+                            </div>
                         </div>
                         <div class="col-md-3">
                             <label class="form-label">Categoria</label>
