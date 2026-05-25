@@ -1,7 +1,5 @@
 package com.tienda.tiendaspring.controlador;
 
-
-import com.tienda.tiendaspring.modelo.Categoria;
 import com.tienda.tiendaspring.modelo.Producto;
 import com.tienda.tiendaspring.servicio.CategoriaServicio;
 import com.tienda.tiendaspring.servicio.ProductoServicio;
@@ -40,6 +38,7 @@ public class VistaControlador {
         productoServicio.eliminar(id);
         return "redirect:/vista/productos";
     }
+
     // Mostrar formulario de edición
     @GetMapping("/productos/editar/{id}")
     public String mostrarFormularioEditar(@PathVariable int id, Model model) {
@@ -55,5 +54,17 @@ public class VistaControlador {
         producto.setId(id);
         productoServicio.guardar(producto);
         return "redirect:/vista/productos";
+    }
+
+    // Página de login
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
+
+    // Página de acceso denegado
+    @GetMapping("/acceso-denegado")
+    public String accesoDenegado() {
+        return "acceso-denegado";
     }
 }
